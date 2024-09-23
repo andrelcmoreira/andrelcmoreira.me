@@ -1,6 +1,6 @@
 $bg: #3a3a3a;
 $fg: #000000;
-$fg-active: #f7a8da;
+$fg-active: #4f4f4f;
 
 html {
     background-color: $bg;
@@ -22,4 +22,9 @@ a {
     &:hover {
         color: $fg-active;
     }
+}
+
+#atom {
+    font-size: 1.0rem;
+    font-weight: normal;
 }
