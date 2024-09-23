@@ -4,6 +4,22 @@
 
 <h1>dirty bits</h1>
 
-<h3>i'm not here yet</h3>
+{{ section.content | safe }}
+
+<h2>blog <a id="atom" href="/atom.xml">(rss)</a></h2>
+{% if section.pages %}
+<p>
+{% for post in section.pages | sort(attribute="date") | reverse %}
+<li>{{ post.date | date(format="%d %b %Y") | lower }} - <a href="{{ post.permalink }}">{{ post.title }}</a>
+{% endfor %}
+</p>
+{% endif %}
+
+<h2>contact</h2>
+<ul>
+    {% for c in section.extra.contact %}
+    <li>{{ c | markdown(inline=true) | safe }}</li>
+    {% endfor %}
+</ul>
 
 {% endblock content %}
