@@ -1,11 +1,11 @@
 $bg: #3a3a3a;
-$fg: #dcdccc;
+$fg: #000000;
 $fg-active: #f7a8da;
 
 html {
     background-color: $bg;
     color: $fg;
-    font-family: sans-serif;
+    font-family: monospace;
     padding: 3vw;
 }
 
