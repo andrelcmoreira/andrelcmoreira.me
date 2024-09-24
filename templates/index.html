@@ -2,22 +2,28 @@
 
 {% block content %}
 
-<h1>dirty bits</h1>
+    <h1>dirty bits</h1>
 
-{{ section.content | safe }}
+    {{ section.content | safe }}
 
-{% if section.pages %}
-<h2>blog <a id="atom" href="/atom.xml">(rss)</a></h2>
-<p>
-{% for post in section.pages | sort(attribute="date") | reverse %}
-<li>{{ post.date | date(format="%d %b %Y") | lower }} - <a href="{{ post.permalink }}">{{ post.title }}</a>
-{% endfor %}
-</p>
-{% endif %}
+    <h2>about</h2>
 
-<h2>contact</h2>
-{% for c in section.extra.contact %}
-<li>{{ c | markdown(inline=true) | safe }}</li>
-{% endfor %}
+    <p align='justify'>
+        hi, my name is andré and this is my personal blog. here i will share my thoughts and some technical stuff.
+    </p>
+
+    {% if section.pages %}
+    <h2>blog <a id="atom" href="/atom.xml">(rss)</a></h2>
+        <p>
+            {% for post in section.pages | sort(attribute="date") | reverse %}
+                <li>{{ post.date | date(format="%d %b %Y") | lower }} — <a href="{{ post.permalink }}">{{ post.title }}</a>
+            {% endfor %}
+        </p>
+    {% endif %}
+
+    <h2>contact</h2>
+        {% for entry in section.extra.contact %}
+            <li>{{ entry | markdown(inline=true) | safe }}</li>
+        {% endfor %}
 
 {% endblock content %}
