@@ -1,7 +1,7 @@
 +++
 [extra]
 contact = [
-    "**github**: https://github.com/andrelcmoreira",
-    "**email**:  andrelcmoreira@disroot.org",
+    "[github](https://github.com/andrelcmoreira)",
+    "[e-mail](andrelcmoreira@disroot.org)",
 ]
 +++
