@@ -1,5 +1,5 @@
-base_url = "https://dirtybits.xyz"
-title = "dirty bits"
+base_url = "https://andrelcmoreira.me"
+title = "andrelcmoreira"
 default_language = "en"
 compile_sass = true
 minify_html = true
