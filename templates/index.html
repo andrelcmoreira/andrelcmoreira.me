@@ -15,6 +15,12 @@
         </p>
     {% endif %}
 
+    <h2>projects</h2>
+        {% for entry in section.extra.projects %}
+            <li>{{ entry | markdown(inline=true) | safe }}</li>
+        {% endfor %}
+        <br><a href="https://github.com/andrelcmoreira?tab=repositories">more</a>
+
     <h2>contact</h2>
         {% for entry in section.extra.contact %}
             <li>{{ entry | markdown(inline=true) | safe }}</li>
