@@ -1,8 +1,10 @@
 +++
-title = "hello, world!"
-date = "2024-08-03"
+title = "Hello, world!"
+date = "2024-10-04"
 +++
 
-hi, my name is andré and this is my first post here. first and foremost: english is not my mother tongue, so eventually i will commit (maybe i'm commiting right now while i'm writing this) some gramatical mistakes on my posts, so be kind. here is a place which i will try to share ~with unknown frequency~ some knowledge (mostly about technical stuff) which may be of interest of other people. for now, that's it.
+Hi, my name is André and this is my first post here. First and foremost: english is not my mother tongue, so eventually I will commit (maybe I'm commiting right now while writing this text) some grammatical mistakes on my posts, so be kind. Here is a place which I hope to share (in my spare time ~and when I feel like~) some knowledge, mostly about some project I'm working on or some technical stuff which may be of interest of other people. For now, that's it. See you soon (or not).
 
-![pic alt](/blog/hello-world/thats_all.gif "opt title")
+<p align="center">
+  <img src="/blog/hello-world/thats_all.gif" />
+</p>
