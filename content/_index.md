@@ -9,5 +9,6 @@ projects = [
     "**[pool-day](https://github.com/andrelcmoreira/pool-day.git)**: thread pool library",
     "**[rsh](https://github.com/andrelcmoreira/rsh.git)**: simple and portable reverse shell",
     "**[host-provisioner](https://github.com/andrelcmoreira/host-provisioner.git)**: ansible playbook to provision my hosts",
+    "**[dotfiles](https://github.com/andrelcmoreira/configs.git)**: dotfiles",
 ]
 +++
