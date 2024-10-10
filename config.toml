@@ -4,6 +4,7 @@ default_language = "en"
 compile_sass = true
 minify_html = true
 generate_feeds = true
+author = "André"
 
 [markdown]
 highlight_code = true
