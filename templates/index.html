@@ -10,7 +10,7 @@
     <h2>blog <a id="atom" href="/atom.xml">(rss)</a></h2>
         <p>
             {% for post in section.pages | sort(attribute="date") | reverse %}
-                <li>{{ post.date | date(format="%d %b %Y") | lower }} — <a href="{{ post.permalink }}">{{ post.title }}</a>
+                <li>{{ post.date | date(format="%Y-%m-%d") }} — <a href="{{ post.permalink }}">{{ post.title }}</a>
             {% endfor %}
         </p>
     {% endif %}

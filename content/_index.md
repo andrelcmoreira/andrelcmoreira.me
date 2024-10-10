@@ -2,7 +2,7 @@
 [extra]
 contact = [
     "[andrelcmoreira](https://keybase.io/andrelcmoreira) at keybase",
-    "`andrelcmoreira at disroot dot org` by e-mail",
+    "andrelcmoreira at disroot dot org by e-mail",
 ]
 projects = [
     "**[usb-rofi](https://github.com/andrelcmoreira/usb-rofi.git)**: management of usb flash drives using rofi and udev",
