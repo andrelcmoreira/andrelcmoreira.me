@@ -16,19 +16,20 @@ jobs:
         uses: shalzz/zola-deploy-action@v0.17.2
         env:
           BUILD_DIR: .
+          CHECK_LINKS: true
           PAGES_BRANCH: gh-pages
           TOKEN: ${{ secrets.TOKEN }}
 
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Build and deploy
-        uses: shalzz/zola-deploy-action@v0.17.2
-        env:
-          PAGES_BRANCH: gh-pages
-          BUILD_DIR: .
-          TOKEN: ${{ secrets.TOKEN }}
-          REPOSITORY: andrelcmoreira/andrelcmoreira.me
+          #  deploy:
+          #    runs-on: ubuntu-latest
+          #    steps:
+          #      - name: Checkout
+          #        uses: actions/checkout@v4
+          #
+          #      - name: Build and deploy
+          #        uses: shalzz/zola-deploy-action@v0.17.2
+          #        env:
+          #          PAGES_BRANCH: gh-pages
+          #          BUILD_DIR: .
+          #          TOKEN: ${{ secrets.TOKEN }}
+          #          REPOSITORY: andrelcmoreira/andrelcmoreira.me

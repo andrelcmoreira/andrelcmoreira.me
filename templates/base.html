@@ -5,7 +5,7 @@
         <meta property="og:site_name" content="{{ config.title }}" />
         <meta property="og:title" content="{% block ogtitle %}{{ config.title }}{% endblock ogtitle %}" />
         <link rel="stylesheet" href="{{ get_url(path='style.css', trailing_slash=false) }}">
-        <link rel="alternate" type="application/atom+xml" title="{{ config.title }} blog" href="{{ get_url(path='atom.xml', trailing_slash=false) }}">
+        <link rel="alternate" type="application/atom+xml" title="{{ config.title }} blog" href="{{ get_url(path='atom.xml') }}">
         <title>{%- block title -%}{{ config.title }}{% endblock title %}</title>
     </head>
     <body>

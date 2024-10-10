@@ -7,6 +7,5 @@ generate_feeds = true
 
 [markdown]
 highlight_code = true
-generate_feed = true
 
 [extra]
