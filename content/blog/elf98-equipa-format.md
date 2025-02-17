@@ -1,6 +1,6 @@
 +++
-title = "Dissecting elifoot 98 equipas"
-date = "2025-01-30"
+title = "Dissecting Elifoot 98 equipas"
+date = "2025-02-25"
 +++
 
 ### Table of Contents
@@ -19,9 +19,11 @@ date = "2025-01-30"
 
 ### 1. Why I am writing this (TLDR)
 
-Back to 90s, when I had my first contact with a computer.
+I think there is a worldwide consensus that [Elifoot](https://www.elifoot.com/contents/game-description) is the most famous game of the football manager genre, with its first version being released on 1987 and the last one on 2024 (more information about the available releases can be found [here](https://www.elifoot.com/)). It's a general consensus as well that the version released on 1998 (aka Elifoot 98) is the most well-succeed and addictive release of the game.
 
-This post aims to provide a technical description of the equipa's file format of elifoot 98, focusing on how the team data is arranged into the equipa file and how it's interpreted by the game.
+Back to 90s, Elifoot 98 was one of the first games I ever played on my childhood. I'm not sure if it was the first one, but it was that I most played. Hundred of hours were spent playing this game on my K6 based computer. Now, almost 30 years, with some programming knowledge, I decided to study the game.
+
+This post aims to provide a technical description of the equipa's file format of Elifoot 98, focusing on how the team data is arranged into the equipa file and how it's interpreted by the game.
 
 ### 2. The equipa format
 
@@ -89,7 +91,7 @@ The ```'colors'``` field has 8 bytes of size, 4 bytes for each color. Both backg
 
 #### 2.4 The country
 
-The ```'country'``` field contains the initial letters (in portuguese) of the equipa's country and has 4 bytes of size. The first byte contains the field size (which usually is 3) and the last 3 bytes contains the encrypted initial letters. This information is used by elifoot to group the equipas according to its country and show the equipa's country flag correctly. Thus, the value of this field must to correspond to a bitmap entry on "FLAGS" directory, placed at the root directory of the game.
+The ```'country'``` field contains the initial letters (in portuguese) of the equipa's country and has 4 bytes of size. The first byte contains the field size (which usually is 3) and the last 3 bytes contains the encrypted initial letters. This information is used by Elifoot to group the equipas according to its country and show the equipa's country flag correctly. Thus, the value of this field must to correspond to a bitmap entry on "FLAGS" directory, placed at the root directory of the game.
 
 #### 2.5 The level
 
