@@ -1,6 +1,6 @@
 +++
 title = "Dissecting Elifoot 98 equipas"
-date = "2025-02-25"
+date = "2025-03-10"
 +++
 
 ### Table of Contents
@@ -21,9 +21,9 @@ date = "2025-02-25"
 
 I think there is a worldwide consensus that [Elifoot](https://www.elifoot.com/contents/game-description) is the most famous game of the football manager genre, with its first version being released on 1987 and the last one on 2024 (more information about the available releases can be found [here](https://www.elifoot.com/)). It's a general consensus as well that the version released on 1998 (aka Elifoot 98) is the most well-succeed and addictive release of the game.
 
-Back to 90s, Elifoot 98 was one of the first games I ever played on my childhood. I'm not sure if it was the first one, but it was that I most played. Hundred of hours were spent playing this game on my K6 based computer. Now, almost 30 years, with some programming knowledge, I decided to study the game.
+Back to 90s, Elifoot 98 was one of the first games I ever played in my life. I'm not sure if it was the first one, but for sure I spent hundred of hours on my childhood playing it on my K6-based computer. Now, almost 30 years have passed and with some programming knowledge, I decided to give a closer look into the game, from a software engineer perspective. I decided to start not by the game itself, but for a core entity: the `equipa` files.
 
-This post aims to provide a technical description of the equipa's file format of Elifoot 98, focusing on how the team data is arranged into the equipa file and how it's interpreted by the game.
+TODO
 
 ### 2. The equipa format
 
