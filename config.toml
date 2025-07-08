@@ -8,5 +8,6 @@ author = "André"
 
 [markdown]
 highlight_code = true
+highlight_theme = "zenburn"
 
 [extra]
