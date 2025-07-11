@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>andrelcmoreira</title>
+    <link rel="self" type="application/atom+xml" href="https://andrelcmoreira.me/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://andrelcmoreira.me"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2025-07-18T00:00:00+00:00</updated>
+    <id>https://andrelcmoreira.me/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Handling USB flash drives with usb-rofi</title>
+        <published>2025-07-18T00:00:00+00:00</published>
+        <updated>2025-07-18T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              André
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://andrelcmoreira.me/blog/handling-usb-flash-drives-with-usb-rofi/"/>
+        <id>https://andrelcmoreira.me/blog/handling-usb-flash-drives-with-usb-rofi/</id>
+        
+        <content type="html" xml:base="https://andrelcmoreira.me/blog/handling-usb-flash-drives-with-usb-rofi/">&lt;h3 id=&quot;brief-context&quot;&gt;Brief context&lt;&#x2F;h3&gt;
+&lt;p&gt;Desktop environments (DE) like &lt;code&gt;KDE&lt;&#x2F;code&gt;, &lt;code&gt;Gnome&lt;&#x2F;code&gt; and &lt;code&gt;XFCE&lt;&#x2F;code&gt; are popular choices among &lt;code&gt;Linux&lt;&#x2F;code&gt; users for setting up their own workspaces. These environments offer a rich ecosystem of user-facing applications — such as file managers, application launchers, text editors, and terminal emulators — along with system-level applications (which are typically not launched directly by users), like window managers, system monitors, and more. In short, DEs provide a wide range of conveniences for &lt;code&gt;Linux&lt;&#x2F;code&gt; users, especially for those who prefer not to deal with the complexity of the operating system and simply want things to &quot;just work&quot; with minimal effort.&lt;&#x2F;p&gt;
+&lt;p&gt;However, there&#x27;s life outside the world of desktop environments.&lt;&#x2F;p&gt;
+&lt;p&gt;For users who prefer fine-grained control over every installed package and configuration made on their system  — like myself — a tiling window manager combined with a few essential applications and configuration files is a good and pretty common choice. In such minimalist environments, one common issue I faced (and I guess it&#x27;s a pretty common one) was the lack of a mechanism to handle USB events (such as device attachment&#x2F;removal). To addresss this, &lt;strong&gt;usb-rofi&lt;&#x2F;strong&gt; was born.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;usb-rofi&quot;&gt;usb-rofi&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;andrelcmoreira&#x2F;usb-rofi&quot;&gt;usb-rofi&lt;&#x2F;a&gt; is a simple tool designed to simplify the management of USB flash drives. It leverages the power of the &lt;code&gt;rofi&lt;&#x2F;code&gt; app launcher and &lt;code&gt;udev&lt;&#x2F;code&gt;. Currently at version &lt;code&gt;0.1.1&lt;&#x2F;code&gt;, the tool consists of an &lt;code&gt;udev&lt;&#x2F;code&gt; rule — which triggers the &lt;code&gt;usb-rofi&lt;&#x2F;code&gt; script whenever a new USB device is attached to the system — and the script itself, which prompts the user to choose an action (mount or ignore the device).&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;&#x2F;strong&gt;: The tool has been tested primarily on Void Linux — my daily driver — and Debian. You&#x27;re welcome to test it on other distributions and report any issues via email or the GitHub repository.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;h3 id=&quot;setting-things-up&quot;&gt;Setting things up&lt;&#x2F;h3&gt;
+&lt;p&gt;After cloning the repository, simply run:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#393939;color:#dedede;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;$ make usb-rofi
+&lt;&#x2F;span&gt;&lt;span&gt;$ sudo make install
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;roadmap&quot;&gt;Roadmap&lt;&#x2F;h3&gt;
+&lt;p&gt;Support for &lt;code&gt;MTP&lt;&#x2F;code&gt; (Media Transfer Protocol) devices is planned for upcoming releases.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Hello, world!</title>
+        <published>2024-10-06T00:00:00+00:00</published>
+        <updated>2024-10-06T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              André
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://andrelcmoreira.me/blog/hello-world/"/>
+        <id>https://andrelcmoreira.me/blog/hello-world/</id>
+        
+        <content type="html" xml:base="https://andrelcmoreira.me/blog/hello-world/">&lt;p&gt;Hi, my name is André and this is my first post here. First and foremost: english is not my mother tongue so, eventually I will commit (maybe I&#x27;m commiting right now while writing this text) some grammatical mistakes on my posts, please be kind. Here is a place which I hope to share (in my spare time &lt;del&gt;and when I feel like&lt;&#x2F;del&gt;) some knowledge, mostly about projects I&#x27;m working on or about some stuff which may interest other people, related to software development, linux, security, IoT or low level in general. For now, that&#x27;s it and see you soon (or not).&lt;&#x2F;p&gt;
+&lt;p align=&quot;center&quot;&gt;
+    &lt;img src=&quot;&#x2F;blog&#x2F;hello-world&#x2F;thats_all.gif&quot; &#x2F;&gt;
+&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>
