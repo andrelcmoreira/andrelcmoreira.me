@@ -1,15 +1,17 @@
 +++
 title = "Managing threads in C/C++ applications with pool-day"
-date = "2025-11-18"
+date = "2025-11-15"
 +++
 
-### Overview
+### Brief context
 
-TODO
+Managing threads in C/C++ applications can be a complex task, especially when we have to manage the entire lifecycle (creation, execution, and termination) of multiple threads while ensuring thread safety and optimal resource utilization. Traditional approaches often involve using low-level threading libraries like `pthread`, which can be cumbersome and error-prone, leading developers to introduce bugs related to concurrency, synchronization and resource wasting to its applications. To address these challenges, higher-level abstractions like thread pools have been developed, providing to developers a better way to manage this kind of resources.
+
+The [pool-day](https://github.com/andrelcmoreira/pool-day/) library provides a simple and efficient way to handle thread pools, allowing developers to easily create, manage and execute tasks in parallel. Currently in version `0.1.1`, with `pool-day` you can create a pool of worker threads that can execute tasks concurrently, improving the performance and responsiveness of your applications.
 
 ### Build and Installation
 
-The library relies on `cmake` tool to be built:
+The library relies on `cmake` tool to be built and installed, as follows below:
 
 ```bash
 $ cmake -S . -B build
@@ -17,40 +19,61 @@ $ cmake --build build
 $ sudo cmake --install build
 ```
 
-Additional flags can be supplied as parameter to the build command, according to
-the table below:
-
-<table style="width:55%; border-collapse: collapse;">
-  <thead>
-    <tr style="background-color:#e2e2e2;">
-      <th style="padding: 8px; border: 2px solid #ddd; text-align: center;">Flag</th>
-      <th style="padding: 8px; border: 2px solid #ddd; text-align: center;">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="padding: 8px; border: 3px solid #ddd; text-align: center">BUILD_SAMPLES</td>
-      <td style="padding: 8px; border: 3px solid #ddd;">Build the library's samples</td>
-    </tr>
-    <tr>
-      <td style="padding: 8px; border: 3px solid #ddd; text-align: center">ENABLE_LOGGING</td>
-      <td colspan="2" style="padding: 8px; border: 3px solid #ddd;">Enable the library's logging feature</td>
-    </tr>
-    <tr>
-      <td style="padding: 8px; border: 3px solid #ddd; text-align: center">BUILD_PYTHON_BINDINGS</td>
-      <td colspan="2" style="padding: 8px; border: 3px solid #ddd;">Build the library's python bindings</td>
-    </tr>
-  </tbody>
-</table>
-
-### Usage
-
-TODO
+Additional flags can be supplied as parameter to the build command as well, like `BUILD_SAMPLES` and `ENABLE_LOGGING`, to respectively build the sample applications and enable logging support in the library.
 
 ### Examples
 
-TODO
+A minimal example of how to use the library in a C application is shown below:
+
+```c
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+#include <pool_day.h>
+
+void *task_cb(void *param) {
+  char *str = (char *)param;
+  char *ret = (char *)calloc(10, sizeof(char));
+
+  for (int i = 0; i < 10; i++) {
+    printf("%s %d\n", str, i);
+    usleep(1000000);
+  }
+
+  strcat(ret, "success!");
+
+  return ret;
+}
+
+int main(void) {
+  pool_day_t pool;
+  task_t *task;
+
+  pool = create_pool(1);
+  if (!pool) {
+    // handle error
+    exit(EXIT_FAILURE);
+  }
+
+  task = create_task(task_cb, (void *)"hello, world!");
+
+  assert(enqueue_task(pool, task) == POOL_DAY_SUCCESS);
+  char *ret = (char *)wait_task_finish(pool, task);
+
+  destroy_pool(&pool);
+
+  printf("result = %s\n", ret);
+  free(ret);
+
+  exit(EXIT_SUCCESS);
+}
+```
+
+Please refer to the [samples](https://github.com/andrelcmoreira/pool-day/tree/develop/samples) folder for more examples.
 
 ### Conclusion
 
-TODO
+The `pool-day` library provides a simple and efficient way to manage threads in C/C++ applications, by using the threading pool approach. By abstracting away the complexities of thread management, it allows developers to focus on writing concurrent code without worrying about low-level threading details. `pool-day` can be a valuable tool for any C/C++ developer looking to improve the performance and responsiveness of their applications through multithreading.
