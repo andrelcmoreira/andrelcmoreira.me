@@ -1,0 +1,48 @@
+<html lang=en><head><meta charset=utf-8><meta content="initial-scale=1" name=viewport><meta content=andrelcmoreira property=og:site_name><meta content=andrelcmoreira property=og:title><link href=https://andrelcmoreira.me/style.css rel=stylesheet><link title="andrelcmoreira blog" href=https://andrelcmoreira.me/atom.xml rel=alternate type=application/atom+xml><title>andrelcmoreira - Managing threads in C/C++ applications with pool-day</title><body><main id=content><article><h1 class=title>Managing threads in C/C++ applications with pool-day</h1><br><header><span class=muted> Nov 15, 2025 <span>- 3 min</span> </span></header><h3 id=brief-context>Brief context</h3><p>Sometimes deal with threads is a tedious task, especially when we have to manage the entire lifecycle (creation, execution, and termination) of multiple threads while ensuring thread safety and optimal resource utilization. For C/C++ applications, a traditional approach often involves using low-level threading libraries like <code>pthread</code>, which can be cumbersome and error-prone, leading developers to introduce bugs related to concurrency, synchronization and resource wasting into its applications. To address these challenges, higher-level abstractions like the well known threading pool approach can be used to provide a better way to manage this kind of resources. In this scenario, <code>pool-day</code> comes in to play.<h3 id=pool-day>pool-day</h3><p><a href=https://github.com/andrelcmoreira/pool-day/>pool-day</a> library provides a portable, simple and efficient way to handle threads, allowing applications to easily create, manage and execute tasks in parallel. Currently in version <code>0.1.1</code>, with <code>pool-day</code> you can create a pool of worker threads that can execute tasks concurrently, improving the performance and responsiveness of your applications.<blockquote><p><strong>NOTE</strong>: The library was tested primarily on <code>Linux</code> based systems (that is the main target of the library for now), but due to its POSIX compliance, it should work on other operating systems as well. Reports of issues and contributions are welcome via email or GitHub repository.</blockquote><h3 id=build-and-installation>Build and Installation</h3><p>The library relies on <code>cmake</code> tool to be built and installed, as follows below:<pre class=language-bash data-lang=bash style=color:#dedede;background-color:#393939><code class=language-bash data-lang=bash><span>$ cmake -S . -B build
+</span><span>$ cmake --build build
+</span><span>$ sudo cmake --install build
+</span></code></pre><p>Additional flags can be supplied as parameter to the build command as well, like <code>BUILD_SAMPLES</code> and <code>ENABLE_LOGGING</code>, to respectively build the library's sample applications and enable library logging support (specially useful for debugging purposes).<h3 id=examples>Examples</h3><p>A minimal example of how to use the library in a C application is shown below:<pre class=language-c data-lang=c style=color:#dedede;background-color:#393939><code class=language-c data-lang=c><span style=color:#fed6af>#include </span><span style=color:#d6d6d680><</span><span style=color:#d68686>assert.h</span><span style=color:#d6d6d680>>
+</span><span style=color:#fed6af>#include </span><span style=color:#d6d6d680><</span><span style=color:#d68686>stdio.h</span><span style=color:#d6d6d680>>
+</span><span style=color:#fed6af>#include </span><span style=color:#d6d6d680><</span><span style=color:#d68686>stdlib.h</span><span style=color:#d6d6d680>>
+</span><span style=color:#fed6af>#include </span><span style=color:#d6d6d680><</span><span style=color:#d68686>string.h</span><span style=color:#d6d6d680>>
+</span><span style=color:#fed6af>#include </span><span style=color:#d6d6d680><</span><span style=color:#d68686>unistd.h</span><span style=color:#d6d6d680>>
+</span><span>
+</span><span style=color:#fed6af>#include </span><span style=color:#d6d6d680><</span><span style=color:#d68686>pool_day.h</span><span style=color:#d6d6d680>>
+</span><span>
+</span><span style=color:#fffb9d>void </span><span style=color:#ececec>*</span><span style=color:#fffd87>task_cb</span><span>(</span><span style=color:#fffb9d>void </span><span style=color:#ececec>*</span><span>param) {
+</span><span>  </span><span style=color:#fffb9d>char </span><span style=color:#ececec>*</span><span>str </span><span style=color:#ececec>= </span><span>(</span><span style=color:#fffb9d>char </span><span style=color:#ececec>*</span><span>)param;
+</span><span>  </span><span style=color:#fffb9d>char </span><span style=color:#ececec>*</span><span>ret </span><span style=color:#ececec>= </span><span>(</span><span style=color:#fffb9d>char </span><span style=color:#ececec>*</span><span>)</span><span style=color:#fffd87>calloc</span><span>(</span><span style=color:#87d6d5;font-weight:700>10</span><span>, </span><span style=color:#ececec>sizeof</span><span>(</span><span style=color:#fffb9d>char</span><span>));
+</span><span>
+</span><span>  </span><span style=color:#fed6af>for </span><span>(</span><span style=color:#fffb9d>int</span><span> i </span><span style=color:#ececec>= </span><span style=color:#87d6d5;font-weight:700>0</span><span>; i </span><span style=color:#ececec>< </span><span style=color:#87d6d5;font-weight:700>10</span><span>; i</span><span style=color:#ececec>++</span><span>) {
+</span><span>    </span><span style=color:#fffd87>printf</span><span>(</span><span style=color:#d6d6d680>"</span><span style=color:#cc9495;font-weight:700>%s %d</span><span style=color:#ff8080;font-weight:700>\n</span><span style=color:#d6d6d680>"</span><span>, str, i);
+</span><span>    usleep(</span><span style=color:#87d6d5;font-weight:700>1000000</span><span>);
+</span><span>  }
+</span><span>
+</span><span>  </span><span style=color:#fffd87>strcat</span><span>(ret, </span><span style=color:#d6d6d680>"</span><span style=color:#d68686>success!</span><span style=color:#d6d6d680>"</span><span>);
+</span><span>
+</span><span>  </span><span style=color:#fed6af>return</span><span> ret;
+</span><span>}
+</span><span>
+</span><span style=color:#fffb9d>int </span><span style=color:#fffd87>main</span><span>(</span><span style=color:#fffb9d>void</span><span>) {
+</span><span>  pool_day_t pool;
+</span><span>  task_t </span><span style=color:#ececec>*</span><span>task;
+</span><span>
+</span><span>  pool </span><span style=color:#ececec>= </span><span>create_pool(</span><span style=color:#87d6d5;font-weight:700>1</span><span>);
+</span><span>  </span><span style=color:#fed6af>if </span><span>(</span><span style=color:#ececec>!</span><span>pool) {
+</span><span>    </span><span style=color:#a0cfa1>//</span><span style=color:#87ae86> handle error
+</span><span>    </span><span style=color:#fffd87>exit</span><span>(EXIT_FAILURE);
+</span><span>  }
+</span><span>
+</span><span>  task </span><span style=color:#ececec>= </span><span>create_task(task_cb, (</span><span style=color:#fffb9d>void </span><span style=color:#ececec>*</span><span>)</span><span style=color:#d6d6d680>"</span><span style=color:#d68686>hello, world!</span><span style=color:#d6d6d680>"</span><span>);
+</span><span>
+</span><span>  </span><span style=color:#fffd87>assert</span><span>(enqueue_task(pool, task) </span><span style=color:#ececec>==</span><span> POOL_DAY_SUCCESS);
+</span><span>  </span><span style=color:#fffb9d>char </span><span style=color:#ececec>*</span><span>ret </span><span style=color:#ececec>= </span><span>(</span><span style=color:#fffb9d>char </span><span style=color:#ececec>*</span><span>)wait_task_finish(pool, task);
+</span><span>
+</span><span>  destroy_pool(</span><span style=color:#ececec>&</span><span>pool);
+</span><span>
+</span><span>  </span><span style=color:#fffd87>printf</span><span>(</span><span style=color:#d6d6d680>"</span><span style=color:#d68686>result = </span><span style=color:#cc9495;font-weight:700>%s</span><span style=color:#ff8080;font-weight:700>\n</span><span style=color:#d6d6d680>"</span><span>, ret);
+</span><span>  </span><span style=color:#fffd87>free</span><span>(ret);
+</span><span>
+</span><span>  </span><span style=color:#fffd87>exit</span><span>(EXIT_SUCCESS);
+</span><span>}
+</span></code></pre><p>Please refer to the <a href=https://github.com/andrelcmoreira/pool-day/tree/develop/samples>samples</a> folder for more examples.<h3 id=roadmap>Roadmap</h3><p>The library is still in its early stages of development and there are some features planned for future releases, including:<ul><li>Guarantee the support for other operating systems;<li>Implementation of Python bindings;<li>More comprehensive documentation and examples.</ul><h3 id=conclusion>Conclusion</h3><p>The <code>pool-day</code> library provides a simple and efficient way to manage threads in C/C++ applications, by using the threading pool approach. By abstracting away the complexities of thread management, it allows developers to focus on writing concurrent code without worrying about low-level threading details. <code>pool-day</code> can be a valuable tool for any C/C++ developer looking to improve the performance and responsiveness of their applications through multithreading. For more details, please refer to the <a href=https://github.com/andrelcmoreira/pool-day/releases/download/0.1.1/pool-day-doc-0.1.1.tar.gz>documentation</a>.</article></main>

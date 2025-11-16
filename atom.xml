@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>andrelcmoreira</title>
+    <link rel="self" type="application/atom+xml" href="https://andrelcmoreira.me/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://andrelcmoreira.me"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2025-11-15T00:00:00+00:00</updated>
+    <id>https://andrelcmoreira.me/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Managing threads in C&#x2F;C++ applications with pool-day</title>
+        <published>2025-11-15T00:00:00+00:00</published>
+        <updated>2025-11-15T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              André
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://andrelcmoreira.me/blog/pool-day/"/>
+        <id>https://andrelcmoreira.me/blog/pool-day/</id>
+        
+        <content type="html" xml:base="https://andrelcmoreira.me/blog/pool-day/">&lt;h3 id=&quot;brief-context&quot;&gt;Brief context&lt;&#x2F;h3&gt;
+&lt;p&gt;Sometimes deal with threads is a tedious task, especially when we have to manage the entire lifecycle (creation, execution, and termination) of multiple threads while ensuring thread safety and optimal resource utilization. For C&#x2F;C++ applications, a traditional approach often involves using low-level threading libraries like &lt;code&gt;pthread&lt;&#x2F;code&gt;, which can be cumbersome and error-prone, leading developers to introduce bugs related to concurrency, synchronization and resource wasting into its applications. To address these challenges, higher-level abstractions like the well known threading pool approach can be used to provide a better way to manage this kind of resources. In this scenario, &lt;code&gt;pool-day&lt;&#x2F;code&gt; comes in to play.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;pool-day&quot;&gt;pool-day&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;andrelcmoreira&#x2F;pool-day&#x2F;&quot;&gt;pool-day&lt;&#x2F;a&gt; library provides a portable, simple and efficient way to handle threads, allowing applications to easily create, manage and execute tasks in parallel. Currently in version &lt;code&gt;0.1.1&lt;&#x2F;code&gt;, with &lt;code&gt;pool-day&lt;&#x2F;code&gt; you can create a pool of worker threads that can execute tasks concurrently, improving the performance and responsiveness of your applications.&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;&#x2F;strong&gt;: The library was tested primarily on &lt;code&gt;Linux&lt;&#x2F;code&gt; based systems (that is the main target of the library for now), but due to its POSIX compliance, it should work on other operating systems as well. Reports of issues and contributions are welcome via email or GitHub repository.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;h3 id=&quot;build-and-installation&quot;&gt;Build and Installation&lt;&#x2F;h3&gt;
+&lt;p&gt;The library relies on &lt;code&gt;cmake&lt;&#x2F;code&gt; tool to be built and installed, as follows below:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#393939;color:#dedede;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;$ cmake -S . -B build
+&lt;&#x2F;span&gt;&lt;span&gt;$ cmake --build build
+&lt;&#x2F;span&gt;&lt;span&gt;$ sudo cmake --install build
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Additional flags can be supplied as parameter to the build command as well, like &lt;code&gt;BUILD_SAMPLES&lt;&#x2F;code&gt; and &lt;code&gt;ENABLE_LOGGING&lt;&#x2F;code&gt;, to respectively build the library&#x27;s sample applications and enable library logging support (specially useful for debugging purposes).&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;examples&quot;&gt;Examples&lt;&#x2F;h3&gt;
+&lt;p&gt;A minimal example of how to use the library in a C application is shown below:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;c&quot; style=&quot;background-color:#393939;color:#dedede;&quot; class=&quot;language-c &quot;&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#fed6af;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d68686;&quot;&gt;assert.h&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#fed6af;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d68686;&quot;&gt;stdio.h&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#fed6af;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d68686;&quot;&gt;stdlib.h&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#fed6af;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d68686;&quot;&gt;string.h&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#fed6af;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d68686;&quot;&gt;unistd.h&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#fed6af;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d68686;&quot;&gt;pool_day.h&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffb9d;&quot;&gt;void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffd87;&quot;&gt;task_cb&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffb9d;&quot;&gt;void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span&gt;param) {
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffb9d;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span&gt;str &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffb9d;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span&gt;)param;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffb9d;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span&gt;ret &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffb9d;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffd87;&quot;&gt;calloc&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#87d6d5;&quot;&gt;10&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;sizeof&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffb9d;&quot;&gt;char&lt;&#x2F;span&gt;&lt;span&gt;));
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#fed6af;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffb9d;&quot;&gt;int&lt;&#x2F;span&gt;&lt;span&gt; i &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#87d6d5;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;; i &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;&amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#87d6d5;&quot;&gt;10&lt;&#x2F;span&gt;&lt;span&gt;; i&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;++&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffd87;&quot;&gt;printf&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#cc9495;&quot;&gt;%s %d&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#ff8080;&quot;&gt;\n&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;, str, i);
+&lt;&#x2F;span&gt;&lt;span&gt;    usleep(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#87d6d5;&quot;&gt;1000000&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;span&gt;  }
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffd87;&quot;&gt;strcat&lt;&#x2F;span&gt;&lt;span&gt;(ret, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d68686;&quot;&gt;success!&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#fed6af;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; ret;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffb9d;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffd87;&quot;&gt;main&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffb9d;&quot;&gt;void&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;  pool_day_t pool;
+&lt;&#x2F;span&gt;&lt;span&gt;  task_t &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span&gt;task;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  pool &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span&gt;create_pool(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#87d6d5;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#fed6af;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;!&lt;&#x2F;span&gt;&lt;span&gt;pool) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a0cfa1;&quot;&gt;&#x2F;&#x2F;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#87ae86;&quot;&gt; handle error
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffd87;&quot;&gt;exit&lt;&#x2F;span&gt;&lt;span&gt;(EXIT_FAILURE);
+&lt;&#x2F;span&gt;&lt;span&gt;  }
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  task &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span&gt;create_task(task_cb, (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffb9d;&quot;&gt;void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d68686;&quot;&gt;hello, world!&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffd87;&quot;&gt;assert&lt;&#x2F;span&gt;&lt;span&gt;(enqueue_task(pool, task) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;==&lt;&#x2F;span&gt;&lt;span&gt; POOL_DAY_SUCCESS);
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffb9d;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span&gt;ret &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffb9d;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span&gt;)wait_task_finish(pool, task);
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  destroy_pool(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ececec;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;pool);
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffd87;&quot;&gt;printf&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d68686;&quot;&gt;result = &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#cc9495;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#ff8080;&quot;&gt;\n&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d6d6d680;&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;, ret);
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffd87;&quot;&gt;free&lt;&#x2F;span&gt;&lt;span&gt;(ret);
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#fffd87;&quot;&gt;exit&lt;&#x2F;span&gt;&lt;span&gt;(EXIT_SUCCESS);
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Please refer to the &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;andrelcmoreira&#x2F;pool-day&#x2F;tree&#x2F;develop&#x2F;samples&quot;&gt;samples&lt;&#x2F;a&gt; folder for more examples.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;roadmap&quot;&gt;Roadmap&lt;&#x2F;h3&gt;
+&lt;p&gt;The library is still in its early stages of development and there are some features planned for future releases, including:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Guarantee the support for other operating systems;&lt;&#x2F;li&gt;
+&lt;li&gt;Implementation of Python bindings;&lt;&#x2F;li&gt;
+&lt;li&gt;More comprehensive documentation and examples.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;&#x2F;h3&gt;
+&lt;p&gt;The &lt;code&gt;pool-day&lt;&#x2F;code&gt; library provides a simple and efficient way to manage threads in C&#x2F;C++ applications, by using the threading pool approach. By abstracting away the complexities of thread management, it allows developers to focus on writing concurrent code without worrying about low-level threading details. &lt;code&gt;pool-day&lt;&#x2F;code&gt; can be a valuable tool for any C&#x2F;C++ developer looking to improve the performance and responsiveness of their applications through multithreading. For more details, please refer to the &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;andrelcmoreira&#x2F;pool-day&#x2F;releases&#x2F;download&#x2F;0.1.1&#x2F;pool-day-doc-0.1.1.tar.gz&quot;&gt;documentation&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Handling USB flash drives with usb-rofi</title>
+        <published>2025-07-18T00:00:00+00:00</published>
+        <updated>2025-07-18T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              André
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://andrelcmoreira.me/blog/handling-usb-flash-drives-with-usb-rofi/"/>
+        <id>https://andrelcmoreira.me/blog/handling-usb-flash-drives-with-usb-rofi/</id>
+        
+        <content type="html" xml:base="https://andrelcmoreira.me/blog/handling-usb-flash-drives-with-usb-rofi/">&lt;h3 id=&quot;brief-context&quot;&gt;Brief context&lt;&#x2F;h3&gt;
+&lt;p&gt;Desktop environments (DE) like &lt;code&gt;KDE&lt;&#x2F;code&gt;, &lt;code&gt;Gnome&lt;&#x2F;code&gt; and &lt;code&gt;XFCE&lt;&#x2F;code&gt; are popular choices among &lt;code&gt;Linux&lt;&#x2F;code&gt; users for setting up their own workspaces. These environments offer a rich ecosystem of user-facing applications — such as file managers, application launchers, text editors, and terminal emulators — along with system-level applications (which are typically not launched directly by users), like window managers, system monitors, and more. In short, DEs provide a wide range of conveniences for &lt;code&gt;Linux&lt;&#x2F;code&gt; users, especially for those who prefer not to deal with the complexity of the operating system and simply want things to &quot;just work&quot; with minimal effort.&lt;&#x2F;p&gt;
+&lt;p&gt;However, there&#x27;s life outside the world of desktop environments.&lt;&#x2F;p&gt;
+&lt;p&gt;For users who prefer fine-grained control over every installed package and configuration made on their system  — like myself — a tiling window manager combined with a few essential applications and configuration files is a good and pretty common choice. In such minimalist environments, one common issue I faced (and I guess it&#x27;s a pretty common one) was the lack of a mechanism to handle USB events (such as device attachment&#x2F;removal). To addresss this, &lt;strong&gt;usb-rofi&lt;&#x2F;strong&gt; was born.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;usb-rofi&quot;&gt;usb-rofi&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;andrelcmoreira&#x2F;usb-rofi&quot;&gt;usb-rofi&lt;&#x2F;a&gt; is a simple tool designed to simplify the management of USB flash drives. It leverages the power of the &lt;code&gt;rofi&lt;&#x2F;code&gt; app launcher and &lt;code&gt;udev&lt;&#x2F;code&gt;. Currently at version &lt;code&gt;0.1.1&lt;&#x2F;code&gt;, the tool consists of an &lt;code&gt;udev&lt;&#x2F;code&gt; rule — which triggers the &lt;code&gt;usb-rofi&lt;&#x2F;code&gt; script whenever a new USB device is attached to the system — and the script itself, which prompts the user to choose an action (mount or ignore the device).&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;&#x2F;strong&gt;: The tool has been tested primarily on Void Linux — my daily driver — and Debian. You&#x27;re welcome to test it on other distributions and report any issues via email or the GitHub repository.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;h3 id=&quot;setting-things-up&quot;&gt;Setting things up&lt;&#x2F;h3&gt;
+&lt;p&gt;After cloning the repository, simply run:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#393939;color:#dedede;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;$ make usb-rofi
+&lt;&#x2F;span&gt;&lt;span&gt;$ sudo make install
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;roadmap&quot;&gt;Roadmap&lt;&#x2F;h3&gt;
+&lt;p&gt;Support for &lt;code&gt;MTP&lt;&#x2F;code&gt; (Media Transfer Protocol) devices is planned for upcoming releases.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Hello, world!</title>
+        <published>2024-10-06T00:00:00+00:00</published>
+        <updated>2024-10-06T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              André
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://andrelcmoreira.me/blog/hello-world/"/>
+        <id>https://andrelcmoreira.me/blog/hello-world/</id>
+        
+        <content type="html" xml:base="https://andrelcmoreira.me/blog/hello-world/">&lt;p&gt;Hi, my name is André and this is my first post here. First and foremost: english is not my mother tongue so, eventually I will commit (maybe I&#x27;m commiting right now while writing this text) some grammatical mistakes on my posts, please be kind. Here is a place which I hope to share (in my spare time) some knowledge, mostly about projects I&#x27;m working on or about some stuff which may interest other people. For now, that&#x27;s it and see you soon (or not).&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>
