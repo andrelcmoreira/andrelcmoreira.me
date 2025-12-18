@@ -36,7 +36,7 @@ A minimal example of how to use the library in a C application is shown below:
 #include <string.h>
 #include <unistd.h>
 
-#include <pool_day.h>
+#include <pool_day/pool_day.h>
 
 void *task_cb(void *param) {
   char *str = (char *)param;
