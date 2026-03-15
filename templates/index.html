@@ -4,6 +4,8 @@
 
     <h1>{{ config.title }}</h1>
 
+    <br>{{ config.description | markdown(inline=true) | safe }}</br>
+
     {{ section.content | safe }}
 
     {% if section.pages %}
